@@ -72,7 +72,7 @@ runs:
         pwd
         echo "Directory contents:"
         ls -R
-      working-directory: testproject/backend/settings
+      working-directory: testproject/backend
       shell: bash
   
     - run: cp testproject/settings/local.py.example testproject/settings/local.py
