@@ -65,7 +65,7 @@ runs:
     - run: poetry install --with dev --no-root --no-interaction --no-ansi
       working-directory: testproject
       shell: bash
-      - name: Log directory structure
+    - name: Log directory structure
     - run: |
       echo "Current directory:"
       pwd
