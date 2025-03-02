@@ -2,11 +2,11 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Bar from 'react-bootstrap/Navbar';
 
-function Navbar(): JSX.Element {
+export default function Navbar(): JSX.Element {
   return (
-    <Bar expand="lg" className="bg-body-tertiary">
+    <Bar expand="lg" className="bg-body-tertiary navbar">
       <Container>
-        <Bar.Brand href="#home">React-Bootstrap</Bar.Brand>
+        <Bar.Brand href="#home">KabutoRecs</Bar.Brand>
         <Bar.Toggle aria-controls="basic-Bar-nav" />
         <Bar.Collapse id="basic-Bar-nav">
           <Nav className="me-auto">
@@ -18,5 +18,3 @@ function Navbar(): JSX.Element {
     </Bar>
   );
 }
-
-export default BasicExample;
