@@ -75,7 +75,7 @@ runs:
       working-directory: testproject/backend
       shell: bash
   
-    - run: cp testproject/settings/local.py.example testproject/settings/local.py
+    - run: cp anime-recommendation/settings/local.py.example anime-recommendation/settings/local.py
       working-directory: testproject/backend
       shell: bash
     - run: cp .env.example .env
