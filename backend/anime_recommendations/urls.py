@@ -19,7 +19,7 @@ for route in routes:
     router.register(route["regex"], route["viewset"], basename=route["basename"])
 
 urlpatterns = [
-    path("", include("common.urls"), name="common"),
+    path("", include("common.urls", namespace="common")),
     path("admin/", admin.site.urls, name="admin"),
     path("admin/defender/", include("defender.urls")),
     path("jsreverse/", django_js_reverse.views.urls_js, name="js_reverse"),

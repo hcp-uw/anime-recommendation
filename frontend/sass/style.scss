@@ -25,3 +25,13 @@
     }
     margin-bottom: 1em;
 }
+
+// Whole page
+.page {
+    min-height: 100vh;
+}
+
+// Content of page other than navbar
+.content {
+    padding: 1em 2.5em;
+}
