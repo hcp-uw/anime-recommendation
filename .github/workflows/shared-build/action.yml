@@ -65,16 +65,6 @@ runs:
     - run: poetry install --with dev --no-root --no-interaction --no-ansi
       working-directory: testproject
       shell: bash
-
-    - name: Log directory structure
-      run: |
-        echo "Current directory:"
-        pwd
-        echo "Directory contents:"
-        ls -R
-      working-directory: testproject/backend
-      shell: bash
-  
     - run: cp testproject/settings/local.py.example testproject/settings/local.py
       working-directory: testproject/backend
       shell: bash
