@@ -75,6 +75,8 @@ CSP_CONNECT_SRC += [LOCAL_HOST_URL, LOCAL_HOST_WS_URL]
 CSP_FONT_SRC += [LOCAL_HOST_URL]
 CSP_IMG_SRC += [LOCAL_HOST_URL]
 import sys
+import sys
 
-ROOT_URLCONF = "anime-recommendation.urls"
+print("Debug: ROOT_URLCONF =", ROOT_URLCONF, file=sys.stderr)
+print("Debug: INSTALLED_APPS =", INSTALLED_APPS, file=sys.stderr)
 
