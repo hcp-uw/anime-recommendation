@@ -2,6 +2,8 @@ import * as Sentry from "@sentry/react";
 import cookie from "cookie";
 
 import { OpenAPI } from "./api";
+import { Routes, Route } from 'react-router-dom';
+
 import Navbar from "./components/navbar/Navbar"
 import Home from "./pages/Home";
 
