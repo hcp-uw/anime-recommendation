@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Bar from 'react-bootstrap/Navbar';
 
 // TO-DO: Delete recommendations link after linked from generate button in home pg
-export default function Navbar(): JSX.Element {
+export default function Navbar() {
   return (
     <Bar expand="lg" className="bg-header-c">
       <Container>

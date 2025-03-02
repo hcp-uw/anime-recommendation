@@ -1,4 +1,4 @@
-export default function Recommendations(): JSX.Element {
+export default function Recommendations() {
     return (
         <div className="bg-page-c">
             

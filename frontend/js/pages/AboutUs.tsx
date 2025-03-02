@@ -1,4 +1,4 @@
-export default function AboutUs(): JSX.Element {
+export default function AboutUs() {
     return (
         <div className="bg-page-c">
             
