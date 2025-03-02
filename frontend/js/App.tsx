@@ -18,7 +18,11 @@ OpenAPI.interceptors.request.use((request) => {
 const App = () => (
   <Sentry.ErrorBoundary fallback={<p>An error has occurred</p>}>
     <Navbar />
-    <Home />
+    <Routes >
+      <Route path="/" element={<Home />} />
+      <Route path="/recs" element={<Recommendations />} />
+      <Route path="/about" element={<AboutUs />} />
+    </Routes >
   </Sentry.ErrorBoundary>
 );
 
