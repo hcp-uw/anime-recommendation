@@ -67,7 +67,9 @@ runs:
       shell: bash
 
     - name: Replace project name in files
-      run: mv backend/anime_recommendations backend/testproject
+      run: |
+        find backend -type f -exec sed -i "s/anime_recommendations/testproject/g" {} \;
+        mv backend/anime_recommendations backend/testproject
       working-directory: testproject
       shell: bash
 
