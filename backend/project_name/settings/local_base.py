@@ -76,6 +76,7 @@ CSP_FONT_SRC += [LOCAL_HOST_URL]
 CSP_IMG_SRC += [LOCAL_HOST_URL]
 import sys
 
+
 print("Debug: ROOT_URLCONF =", ROOT_URLCONF, file=sys.stderr)
 print("Debug: INSTALLED_APPS =", INSTALLED_APPS, file=sys.stderr)
 
