@@ -1,6 +1,6 @@
 from django.core import management
 
-from anime-recommendation import celery_app
+from anime_recommendations import celery_app
 
 
 @celery_app.task

@@ -1,21 +1,21 @@
 databases:
-  - name: anime-recommendation-postgres
-    databaseName: anime-recommendation
+  - name: anime_recommendations-postgres
+    databaseName: anime_recommendations
     plan: free
-    user: anime-recommendation
+    user: anime_recommendations
 
 services:
   - type: redis
-    name: anime-recommendation-redis
+    name: anime_recommendations-redis
     plan: free
     ipAllowList: [] # only allow internal connections
 
   - type: web
-    name: anime-recommendation
+    name: anime_recommendations
     plan: free
     runtime: python
     buildCommand: "./render_build.sh"
-    startCommand: "poetry run gunicorn anime-recommendation.wsgi:application --chdir backend --limit-request-line 8188 --log-file -"
+    startCommand: "poetry run gunicorn anime_recommendations.wsgi:application --chdir backend --limit-request-line 8188 --log-file -"
     envVars:
       - key: ENABLE_DJANGO_COLLECTSTATIC
         value: 1
@@ -23,12 +23,12 @@ services:
         value: 1
       - key: DATABASE_URL
         fromDatabase:
-          name: anime-recommendation-postgres
+          name: anime_recommendations-postgres
           property: connectionString
       - key: REDIS_URL
         fromService:
           type: redis
-          name: anime-recommendation-redis
+          name: anime_recommendations-redis
           property: connectionString
       - fromGroup: python-services
       - fromGroup: integrations-credentials
@@ -41,7 +41,7 @@ services:
   #   runtime: python
   #   env: python
   #   buildCommand: poetry install
-  #   startCommand: "poetry run celery --workdir backend --app=anime-recommendation worker --loglevel=info --max-memory-per-child=$WORKER_MAX_MEMORY  --concurrency=$WORKER_CONCURRENCY"
+  #   startCommand: "poetry run celery --workdir backend --app=anime_recommendations worker --loglevel=info --max-memory-per-child=$WORKER_MAX_MEMORY  --concurrency=$WORKER_CONCURRENCY"
   #   envVars:
   #     - key: REMAP_SIGTERM
   #       value: SIGQUIT
@@ -73,12 +73,12 @@ services:
   #       sync: false
   #     - key: DATABASE_URL
   #       fromDatabase:
-  #         name: anime-recommendation-postgres
+  #         name: anime_recommendations-postgres
   #         property: connectionString
   #     - key: REDIS_URL
   #       fromService:
   #         type: redis
-  #         name: anime-recommendation-redis
+  #         name: anime_recommendations-redis
   #         property: connectionString
   #     - fromGroup: python-services
   #     - fromGroup: integrations-credentials
@@ -87,18 +87,18 @@ services:
   #   runtime: python
   #   env: python
   #   buildCommand: poetry install
-  #   startCommand: "poetry run celery --workdir backend --app=anime-recommendation beat --loglevel=info"
+  #   startCommand: "poetry run celery --workdir backend --app=anime_recommendations beat --loglevel=info"
   #   envVars:
   #     - key: REMAP_SIGTERM
   #       value: SIGQUIT
   #     - key: DATABASE_URL
   #       fromDatabase:
-  #         name: anime-recommendation-postgres
+  #         name: anime_recommendations-postgres
   #         property: connectionString
   #     - key: REDIS_URL
   #       fromService:
   #         type: redis
-  #         name: anime-recommendation-redis
+  #         name: anime_recommendations-redis
   #         property: connectionString
   #     - fromGroup: python-services
   #     - fromGroup: integrations-credentials
@@ -113,7 +113,7 @@ envVarGroups:
       - key: SECRET_KEY
         generateValue: true
       - key: DJANGO_SETTINGS_MODULE
-        value: anime-recommendation.settings.production
+        value: anime_recommendations.settings.production
       - key: ALLOWED_HOSTS
         value: '*'
   - name: integrations-credentials

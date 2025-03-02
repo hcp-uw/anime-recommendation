@@ -33,7 +33,7 @@ npm-debug.log
 *.map
 
 # General
-/anime-recommendation-venv/
+/anime_recommendations-venv/
 /venv/
 /env/
 /output/

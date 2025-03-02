@@ -13,9 +13,9 @@ if __name__ == "__main__":
         if settings_module:
             print(
                 "Ignoring config('DJANGO_SETTINGS_MODULE') because it's test. "
-                "Using 'anime-recommendation.settings.test'"
+                "Using 'anime_recommendations.settings.test'"
             )
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "anime-recommendation.settings.test")
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "anime_recommendations.settings.test")
     else:
         if settings_module is None:
             print(
