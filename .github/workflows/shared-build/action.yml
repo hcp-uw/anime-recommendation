@@ -67,11 +67,7 @@ runs:
       shell: bash
 
     - name: Replace project name in files
-      run: |
-        # Replace anime_recommendations with testproject in the backend directory
-        find testproject/backend -type f -exec sed -i "s/anime_recommendations/testproject/g" {} \;
-        # Rename the directory if necessary
-        mv testproject/backend/anime_recommendations testproject/backend/testproject
+      run: mv backend/anime_recommendations backend/testproject
       working-directory: testproject
       shell: bash
 
