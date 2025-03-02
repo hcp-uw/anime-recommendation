@@ -75,12 +75,22 @@ runs:
       working-directory: testproject/backend
       shell: bash
   
-    - run: cp anime_recommendations/settings/local.py.example anime_recommendations/settings/local.py
+    - run: cp testproject/settings/local.py.example testprojectons/settings/local.py
       working-directory: testproject/backend
       shell: bash
     - run: cp .env.example .env
       working-directory: testproject/backend
       shell: bash
+      
+    - name: Replace project name in files
+      run: |
+        # Replace anime_recommendations with testproject in the backend directory
+        find testproject/backend -type f -exec sed -i "s/anime_recommendations/testproject/g" {} \;
+        # Rename the directory if necessary
+        mv testproject/backend/anime_recommendations testproject/backend/testproject
+      working-directory: testproject
+      shell: bash
+    
     - run: poetry run python manage.py makemigrations
       working-directory: testproject/backend
       env:
