@@ -59,7 +59,7 @@ MIDDLEWARE = [
     "django_guid.middleware.guid_middleware",
 ]
 
-ROOT_URLCONF = "anime-recommendation.urls"
+ROOT_URLCONF = "{{project_name}}.urls"
 
 TEMPLATES = [
     {
