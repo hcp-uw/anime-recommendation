@@ -1,8 +1,8 @@
 {
-  "name": "{{project_name}}-frontend",
+  "name": "anime-recommendation-frontend",
   "version": "0.0.1",
   "private": true,
-  "description": "{{project_name}} frontend.",
+  "description": "anime-recommendation frontend.",
   "engines": {
     "node": ">=20 <21"
   },
