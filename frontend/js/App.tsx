@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/react";
 import cookie from "cookie";
 
 import { OpenAPI } from "./api";
+import Navbar from "./components/navbar/Navbar"
 import Home from "./pages/Home";
 
 OpenAPI.interceptors.request.use((request) => {
@@ -14,6 +15,7 @@ OpenAPI.interceptors.request.use((request) => {
 
 const App = () => (
   <Sentry.ErrorBoundary fallback={<p>An error has occurred</p>}>
+    <Navbar />
     <Home />
   </Sentry.ErrorBoundary>
 );
