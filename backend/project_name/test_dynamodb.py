@@ -1,6 +1,7 @@
 import boto3
 from botocore.exceptions import ClientError
 
+
 def test_dynamodb_connection():
     try:
         # Create a DynamoDB client
