@@ -1,0 +1,20 @@
+$custom-colors: (
+  // Color variables
+    // Main
+    page-c: #B9DCE2, // Page background
+    header-c: #2C3B66, // Header background
+    offbase-black: #1E1004, // For most text
+    offbase-white: #FDFDFD, 
+
+    // Buttons, filter
+    button-c: #748ABC, // Buttons recs button
+    filter-bg-c: #E1F9FE, // Filter box
+    filter-border-c: #08C0E1, // Filter border
+
+    // Tag colors (add more later)
+    pink: #F5C0CE,
+    dark-gray: #525553,
+);
+
+// Merge with Bootstrap's existing colors
+$theme-colors: map-merge($theme-colors, $custom-colors);
