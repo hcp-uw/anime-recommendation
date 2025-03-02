@@ -27,4 +27,4 @@ WORKDIR /home/user/app/backend
 COPY backend/ /home/user/app/backend
 
 USER user
-CMD gunicorn {{project_name}}.wsgi --log-file - -b 0.0.0.0:8000 --reload
+CMD gunicorn anime_recommendations.wsgi --log-file - -b 0.0.0.0:8000 --reload
