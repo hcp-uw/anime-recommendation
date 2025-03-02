@@ -4,7 +4,7 @@ import Bar from 'react-bootstrap/Navbar';
 
 export default function Navbar(): JSX.Element {
   return (
-    <Bar expand="lg" className="navbar">
+    <Bar expand="lg" className="bg-header-c">
       <Container>
         <Bar.Brand href="#home">KabutoRecs</Bar.Brand>
         <Bar.Toggle aria-controls="basic-Bar-nav" />
