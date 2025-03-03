@@ -1,5 +1,6 @@
-import FilterPanel from "../components/FilterPanel/FilterPanel"; // Adjust the path as needed
 import { Container, Row, Col } from "react-bootstrap";
+
+import FilterPanel from "../components/FilterPanel/FilterPanel"; // Adjust the path as needed
 
 const Recommendations = () => {
   return (

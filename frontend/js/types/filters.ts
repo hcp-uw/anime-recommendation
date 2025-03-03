@@ -1,19 +1,57 @@
-export type AnimeStatus = "Finished Airing" | "Not yet aired" | "Currently Airing" | "All Statuses";
-export type AnimeType = "TV" | "OVA" | "Movie" | "Special" | "ONA" | "Music" | "Other" | "All Types";
+export type AnimeStatus =
+  | "Finished Airing"
+  | "Not yet aired"
+  | "Currently Airing"
+  | "All Statuses";
+export type AnimeType =
+  | "TV"
+  | "OVA"
+  | "Movie"
+  | "Special"
+  | "ONA"
+  | "Music"
+  | "Other"
+  | "All Types";
 
-export const animeStatuses: AnimeStatus[] = ["Finished Airing", "Not yet aired", "Currently Airing", "All Statuses"];
-export const animeTypes: AnimeType[] = ["TV", "OVA", "Movie", "Special", "ONA", "Music", "Other", "All Types"];
+export const animeStatuses: AnimeStatus[] = [
+  "Finished Airing",
+  "Not yet aired",
+  "Currently Airing",
+  "All Statuses",
+];
+export const animeTypes: AnimeType[] = [
+  "TV",
+  "OVA",
+  "Movie",
+  "Special",
+  "ONA",
+  "Music",
+  "Other",
+  "All Types",
+];
 
-// TODO: Add source (LN, Game, Manga, etc. as a filter?)
+export type FilterChange =
+  | { key: "includedGenres"; value: string[] }
+  | { key: "excludedGenres"; value: string[] }
+  | { key: "staff"; value: string[] }
+  | { key: "companies"; value: string[] }
+  | { key: "malScore"; value: { min: number; max: number } }
+  | { key: "members"; value: { min: number; max: number } }
+  | { key: "airingDate"; value: { earliestStart: string; latestStart: string } }
+  | { key: "status"; value: AnimeStatus }
+  | { key: "type"; value: AnimeType }
+  | { key: "episodeCount"; value: { min: number; max: number } };
+
+// TODO: Potentially add source (LN, Game, Manga, etc. as a filter?)
 export type Filters = {
-  included_genres: string[];
-  excluded_genres: string[];
+  includedGenres: string[];
+  excludedGenres: string[];
   staff: string[];
   companies: string[];
   malScore: { min: number; max: number };
   members: { min: number; max: number };
-  airing_date: { earliest_start: string, latest_start: string}
+  airingDate: { earliestStart: string; latestStart: string };
   status: AnimeStatus;
   type: AnimeType;
-  episode_count: { min: number; max: number };
+  episodeCount: { min: number; max: number };
 };

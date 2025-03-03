@@ -29,8 +29,8 @@ const StaffInput: React.FC<StaffInputProps> = ({ onChange }) => {
       <h6>Staff</h6>
       {/* Input Field */}
       <Form.Control
-        type="text"
         placeholder="Add staff member"
+        type="text"
         value={staffInput}
         onChange={(e) => setStaffInput(e.target.value)}
         onKeyDown={(e) => {
@@ -47,9 +47,9 @@ const StaffInput: React.FC<StaffInputProps> = ({ onChange }) => {
           <Badge key={member} bg="primary" className="me-2">
             {member}
             <Button
-              variant="link"
-              size="sm"
               className="text-white ms-1"
+              size="sm"
+              variant="link"
               onClick={() => handleRemoveStaff(member)}
             >
               &times;
