@@ -1,19 +1,27 @@
 import React, { useState } from "react";
 import { Form, Badge, Button } from "react-bootstrap";
 
-const StaffInput = () => {
+interface StaffInputProps {
+  onChange: (staff: string[]) => void; // Callback to pass updated staff list
+}
+
+const StaffInput: React.FC<StaffInputProps> = ({ onChange }) => {
   const [staff, setStaff] = useState<string[]>([]); // List of added staff members
   const [staffInput, setStaffInput] = useState<string>(""); // Current input value
 
   const handleAddStaff = () => {
     if (staffInput.trim() && !staff.includes(staffInput)) {
-      setStaff([...staff, staffInput.trim()]);
+      const updatedStaff = [...staff, staffInput.trim()];
+      setStaff(updatedStaff);
+      onChange(updatedStaff); // Notify parent about the change
       setStaffInput(""); // Clear input field after adding
     }
   };
 
   const handleRemoveStaff = (name: string) => {
-    setStaff(staff.filter((member) => member !== name));
+    const updatedStaff = staff.filter((member) => member !== name);
+    setStaff(updatedStaff);
+    onChange(updatedStaff); // Notify parent about the change
   };
 
   return (

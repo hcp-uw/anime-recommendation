@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Accordion, Form, Button } from "react-bootstrap";
 import StaffInput from "./StaffInput";
 import { Filters } from "../../types/filters";
+import { animeStatuses, animeTypes, AnimeStatus, AnimeType } from "../../types/filters";
+
 
 const FilterPanel = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -12,8 +14,8 @@ const FilterPanel = () => {
     malScore: { min: -Infinity, max: Infinity },
     members: { min: -Infinity, max: Infinity },
     airing_date: { earliest_start: "", latest_start: "" },
-    status: "ALL",
-    type: "ALL",
+    status: "All Statuses",
+    type: "All Types",
     episode_count: { min: -Infinity, max: Infinity },
   });
 
@@ -56,11 +58,11 @@ const FilterPanel = () => {
       appliedFilters.airing_date = filters.airing_date;
     }
 
-    if (filters.status && filters.status !== "ALL") {
+    if (filters.status && filters.status !== "All Statuses") {
       appliedFilters.status = filters.status;
     }
 
-    if (filters.type && filters.type !== "ALL") {
+    if (filters.type && filters.type !== "All Types") {
       appliedFilters.type = filters.type;
     }
 
@@ -75,8 +77,10 @@ const FilterPanel = () => {
   };
 
   return (
-    <div className="p-3" style={{ backgroundColor: "#e6f7ff", borderRadius: "8px" }}>
-      <h5>Filters</h5>
+    <div
+    className="filter-panel bg-filter-bg-c border-filter-border-c tz"
+    >
+      <h5 className="text-offbase-black">Filters</h5>
       <Accordion>
         {/* Genre, Tags */}
         <Accordion.Item eventKey="0">
@@ -104,7 +108,11 @@ const FilterPanel = () => {
         <Accordion.Item eventKey="1">
           <Accordion.Header>Staff</Accordion.Header>
           <Accordion.Body>
-            <StaffInput />
+            <StaffInput
+              onChange={(updatedStaff) =>
+                handleChange("staff", updatedStaff)
+              }
+            />
           </Accordion.Body>
         </Accordion.Item>
 
@@ -244,12 +252,14 @@ const FilterPanel = () => {
           <Accordion.Header>Status</Accordion.Header>
           <Accordion.Body>
             <Form.Select
-              value={filters.status || ""}
-              onChange={(e) => handleChange("status", e.target.value || null)}
-            >
-              <option value="">All Statuses</option>
-              <option value="ongoing">Ongoing</option>
-              <option value="completed">Completed</option>
+             value={filters.status}
+             onChange={(e) => handleChange("status", e.target.value as AnimeStatus)}
+           >
+             {animeStatuses.map((status) => (
+               <option key={status} value={status}>
+                 {status}
+               </option>
+             ))}
             </Form.Select>
           </Accordion.Body>
         </Accordion.Item>
@@ -259,12 +269,14 @@ const FilterPanel = () => {
           <Accordion.Header>Type</Accordion.Header>
           <Accordion.Body>
             <Form.Select
-              value={filters.type || ""}
-              onChange={(e) => handleChange("type", e.target.value || null)}
+              value={filters.type}
+              onChange={(e) => handleChange("type", e.target.value as AnimeType)}
             >
-              <option value="">All Types</option>
-              <option value="movie">Movie</option>
-              <option value="series">Series</option>
+              {animeTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
             </Form.Select>
           </Accordion.Body>
         </Accordion.Item>
@@ -311,7 +323,8 @@ const FilterPanel = () => {
 
       {/* Apply Button */}
       <div className="mt-3 text-center">
-        <Button variant="primary" onClick={applyFilters}>
+        <Button className="bg-button-c text-offbase-white"
+        variant="primary" onClick={applyFilters}>
           Apply
         </Button>
       </div>
