@@ -116,11 +116,7 @@ const FilterPanel = () => {
         <Accordion.Item eventKey="1">
           <Accordion.Header>Staff</Accordion.Header>
           <Accordion.Body>
-            <StaffInput
-              onChange={(updatedStaff) =>
-                handleChange({ key: "staff", value: updatedStaff })
-              }
-            />
+            <StaffInput staff={filters.staff} onChange={handleChange} />
           </Accordion.Body>
         </Accordion.Item>
 
