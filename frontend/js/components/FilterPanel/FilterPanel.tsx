@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { Accordion, Form, Button } from "react-bootstrap";
 import StaffInput from "./StaffInput";
-import {Filters} from "../../types/filters";
+import { Filters } from "../../types/filters";
 
 const FilterPanel = () => {
   const [filters, setFilters] = useState<Filters>({
-    genres: [],
+    included_genres: [],
+    excluded_genres: [],
     staff: [],
     companies: [],
-    malScore: { min: 1, max: 10 },
-    members: "",
-    date: "",
-    status: "",
-    type: "",
-    length: "",
+    malScore: { min: -Infinity, max: Infinity },
+    members: { min: -Infinity, max: Infinity },
+    airing_date: { earliest_start: "", latest_start: "" },
+    status: "ALL",
+    type: "ALL",
+    episode_count: { min: -Infinity, max: Infinity },
   });
 
   const handleChange = (key: string, value: any) => {
@@ -24,8 +25,53 @@ const FilterPanel = () => {
   };
 
   const applyFilters = () => {
-    console.log("Applied Filters:", filters);
-    // Add logic to apply filters here
+    // Build the applied filters object by excluding default/invalid values
+    const appliedFilters: Partial<Filters> = {};
+
+    if (filters.included_genres.length > 0) {
+      appliedFilters.included_genres = filters.included_genres;
+    }
+
+    if (filters.excluded_genres.length > 0) {
+      appliedFilters.excluded_genres = filters.excluded_genres;
+    }
+
+    if (filters.staff.length > 0) {
+      appliedFilters.staff = filters.staff;
+    }
+
+    if (filters.companies.length > 0) {
+      appliedFilters.companies = filters.companies;
+    }
+
+    if (filters.malScore.min !== -Infinity || filters.malScore.max !== Infinity) {
+      appliedFilters.malScore = filters.malScore;
+    }
+
+    if (filters.members.min !== -Infinity || filters.members.max !== Infinity) {
+      appliedFilters.members = filters.members;
+    }
+
+    if (filters.airing_date.earliest_start || filters.airing_date.latest_start) {
+      appliedFilters.airing_date = filters.airing_date;
+    }
+
+    if (filters.status && filters.status !== "ALL") {
+      appliedFilters.status = filters.status;
+    }
+
+    if (filters.type && filters.type !== "ALL") {
+      appliedFilters.type = filters.type;
+    }
+
+    if (
+      filters.episode_count.min !== -Infinity ||
+      filters.episode_count.max !== Infinity
+    ) {
+      appliedFilters.episode_count = filters.episode_count;
+    }
+
+    console.log("Applied Filters:", appliedFilters);
   };
 
   return (
@@ -43,10 +89,10 @@ const FilterPanel = () => {
                 label={genre}
                 onChange={(e) =>
                   handleChange(
-                    "genres",
+                    "included_genres",
                     e.target.checked
-                      ? [...filters.genres, genre]
-                      : filters.genres.filter((g) => g !== genre)
+                      ? [...filters.included_genres, genre]
+                      : filters.included_genres.filter((g) => g !== genre)
                   )
                 }
               />
@@ -93,8 +139,34 @@ const FilterPanel = () => {
               type="number"
               min="1"
               max="10"
-              value={filters.malScore}
-              onChange={(e) => handleChange("malScore", Number(e.target.value))}
+              value={filters.malScore.min === -Infinity ? "" : filters.malScore.min}
+              placeholder="No minimum"
+              onChange={(e) =>
+                handleChange("malScore", {
+                  ...filters.malScore,
+                  min:
+                    e.target.value === ""
+                      ? -Infinity
+                      : Number(e.target.value),
+                })
+              }
+            />
+            <Form.Label>Maximum MAL Score (1-10)</Form.Label>
+            <Form.Control
+              type="number"
+              min="1"
+              max="10"
+              value={filters.malScore.max === Infinity ? "" : filters.malScore.max}
+              placeholder="No maximum"
+              onChange={(e) =>
+                handleChange("malScore", {
+                  ...filters.malScore,
+                  max:
+                    e.target.value === ""
+                      ? Infinity
+                      : Number(e.target.value),
+                })
+              }
             />
           </Accordion.Body>
         </Accordion.Item>
@@ -106,8 +178,30 @@ const FilterPanel = () => {
             <Form.Control
               type="number"
               placeholder="Enter minimum members"
-              value={filters.members}
-              onChange={(e) => handleChange("members", e.target.value)}
+              value={filters.members.min === -Infinity ? "" : filters.members.min}
+              onChange={(e) =>
+                handleChange("members", {
+                  ...filters.members,
+                  min:
+                    e.target.value === ""
+                      ? -Infinity
+                      : Number(e.target.value),
+                })
+              }
+            />
+            <Form.Control
+              type="number"
+              placeholder="Enter maximum members"
+              value={filters.members.max === Infinity ? "" : filters.members.max}
+              onChange={(e) =>
+                handleChange("members", {
+                  ...filters.members,
+                  max:
+                    e.target.value === ""
+                      ? Infinity
+                      : Number(e.target.value),
+                })
+              }
             />
           </Accordion.Body>
         </Accordion.Item>
@@ -116,11 +210,32 @@ const FilterPanel = () => {
         <Accordion.Item eventKey="5">
           <Accordion.Header>Date</Accordion.Header>
           <Accordion.Body>
-            <Form.Control
-              type="date"
-              value={filters.date}
-              onChange={(e) => handleChange("date", e.target.value)}
-            />
+            <Form.Group>
+              <Form.Label>Earliest Start Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={filters.airing_date.earliest_start}
+                onChange={(e) =>
+                  handleChange("airing_date", {
+                    ...filters.airing_date,
+                    earliest_start: e.target.value,
+                  })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="mt-3">
+              <Form.Label>Latest End Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={filters.airing_date.latest_start}
+                onChange={(e) =>
+                  handleChange("airing_date", {
+                    ...filters.airing_date,
+                    latest_start: e.target.value,
+                  })
+                }
+              />
+            </Form.Group>
           </Accordion.Body>
         </Accordion.Item>
 
@@ -129,10 +244,10 @@ const FilterPanel = () => {
           <Accordion.Header>Status</Accordion.Header>
           <Accordion.Body>
             <Form.Select
-              value={filters.status}
-              onChange={(e) => handleChange("status", e.target.value)}
+              value={filters.status || ""}
+              onChange={(e) => handleChange("status", e.target.value || null)}
             >
-              <option value="">Select status</option>
+              <option value="">All Statuses</option>
               <option value="ongoing">Ongoing</option>
               <option value="completed">Completed</option>
             </Form.Select>
@@ -144,10 +259,10 @@ const FilterPanel = () => {
           <Accordion.Header>Type</Accordion.Header>
           <Accordion.Body>
             <Form.Select
-              value={filters.type}
-              onChange={(e) => handleChange("type", e.target.value)}
+              value={filters.type || ""}
+              onChange={(e) => handleChange("type", e.target.value || null)}
             >
-              <option value="">Select type</option>
+              <option value="">All Types</option>
               <option value="movie">Movie</option>
               <option value="series">Series</option>
             </Form.Select>
@@ -160,9 +275,35 @@ const FilterPanel = () => {
           <Accordion.Body>
             <Form.Control
               type="number"
-              placeholder="Enter length (minutes)"
-              value={filters.length}
-              onChange={(e) => handleChange("length", e.target.value)}
+              placeholder="Enter minimum length (minutes)"
+              value={
+                filters.episode_count.min === -Infinity ? "" : filters.episode_count.min
+              }
+              onChange={(e) =>
+                handleChange("episode_count", {
+                  ...filters.episode_count,
+                  min:
+                    e.target.value === ""
+                      ? -Infinity
+                      : Number(e.target.value),
+                })
+              }
+            />
+            <Form.Control
+              type="number"
+              placeholder="Enter maximum length (minutes)"
+              value={
+                filters.episode_count.max === Infinity ? "" : filters.episode_count.max
+              }
+              onChange={(e) =>
+                handleChange("episode_count", {
+                  ...filters.episode_count,
+                  max:
+                    e.target.value === ""
+                      ? Infinity
+                      : Number(e.target.value),
+                })
+              }
             />
           </Accordion.Body>
         </Accordion.Item>
