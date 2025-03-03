@@ -1,11 +1,11 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Bar from 'react-bootstrap/Navbar';
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Bar from "react-bootstrap/Navbar";
 
 // TO-DO: Delete recommendations link after linked from generate button in home pg
 export default function Navbar() {
   return (
-    <Bar expand="lg" className="bg-header-c">
+    <Bar className="bg-header-c" expand="lg">
       <Container>
         <Bar.Brand href="/">KabutoRecs</Bar.Brand>
         <Bar.Toggle aria-controls="basic-Bar-nav" />

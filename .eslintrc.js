@@ -5,6 +5,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   extends: ["vinta/recommended-typescript"],
   rules: {
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "import/extensions": [
       "error",
       "ignorePackages",

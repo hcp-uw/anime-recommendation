@@ -1,13 +1,12 @@
 import * as Sentry from "@sentry/react";
 import cookie from "cookie";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { OpenAPI } from "./api";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
 import Layout from "./Layout";
+import AboutUs from "./pages/AboutUs";
 import Home from "./pages/Home";
 import Recommendations from "./pages/Recommendations";
-import AboutUs from "./pages/AboutUs";
 
 OpenAPI.interceptors.request.use((request) => {
   const { csrftoken } = cookie.parse(document.cookie);
@@ -21,10 +20,10 @@ const App = () => (
   <Sentry.ErrorBoundary fallback={<p>An error has occurred</p>}>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="recs" element={<Recommendations />} />
-          <Route path="about" element={<AboutUs />} />
+        <Route element={<Layout />} path="/">
+          <Route element={<Home />} index />
+          <Route element={<Recommendations />} path="recs" />
+          <Route element={<AboutUs />} path="about" />
         </Route>
       </Routes>
     </BrowserRouter>
