@@ -1,4 +1,5 @@
-import { AnimeType, AnimeStatus } from ".";
+import { AnimeStatus } from "./animeStatus";
+import { AnimeType } from "./animeType";
 
 export type Anime = {
   id: number;
@@ -11,7 +12,7 @@ export type Anime = {
   companies: string[];
   malScore: number;
   members: number;
-  airingDate: { start: string; end?: string };
+  airingDate: { start: Date; end?: Date };
   status: AnimeStatus;
   type: AnimeType;
   episodeCount: number;

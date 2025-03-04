@@ -1,4 +1,4 @@
-import { Anime, Filters, FilterChange } from "../types";
+import { Anime, FilterChange } from "../types";
 
 /**
  * Filters an array of Anime based on the provided filters.
@@ -40,11 +40,9 @@ export const filterAnime = (
         case "memberMax":
           return anime.members <= (value as number);
         case "earliestAiringStart":
-          const animeAiringStart = new Date(anime.airingDate.start);
-          return animeAiringStart >= new Date(value as string);
+          return anime.airingDate.start >= value;
         case "latestAiringStart":
-          const animeAiringDate = new Date(anime.airingDate.start);
-          return animeAiringDate <= new Date(value as string);
+          return anime.airingDate.start <= value;
         case "status":
           return value === anime.status;
         case "type":

@@ -20,8 +20,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
     malScoreMax: Infinity,
     memberMin: -Infinity,
     memberMax: Infinity,
-    earliestAiringStart: "",
-    latestAiringStart: "",
+    earliestAiringStart: null,
+    latestAiringStart: null,
     status: "All Statuses",
     type: "All Types",
     episodeCountMin: -Infinity,
@@ -94,13 +94,13 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
     }
 
     // Airing Start Date
-    if (filters.earliestAiringStart) {
+    if (filters.earliestAiringStart !== null) {
       appliedFilters.push({
         key: "earliestAiringStart",
         value: filters.earliestAiringStart,
       });
     }
-    if (filters.latestAiringStart) {
+    if (filters.latestAiringStart !== null) {
       appliedFilters.push({
         key: "latestAiringStart",
         value: filters.latestAiringStart,
@@ -146,8 +146,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
       malScoreMax: Infinity,
       memberMin: -Infinity,
       memberMax: Infinity,
-      earliestAiringStart: "",
-      latestAiringStart: "",
+      earliestAiringStart: null,
+      latestAiringStart: null,
       status: "All Statuses",
       type: "All Types",
       episodeCountMin: -Infinity,
@@ -293,24 +293,32 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
               <Form.Label>Earliest Start Date</Form.Label>
               <Form.Control
                 type="date"
-                value={filters.earliestAiringStart}
+                value={
+                  filters.earliestAiringStart
+                    ? filters.earliestAiringStart.toISOString().split("T")[0]
+                    : ""
+                }
                 onChange={(e) =>
                   handleChange({
                     key: "earliestAiringStart",
-                    value: e.target.value,
+                    value: new Date(e.target.value),
                   })
                 }
               />
             </Form.Group>
             <Form.Group className="mt-3">
-              <Form.Label>Latest End Date</Form.Label>
+              <Form.Label>Latest Start Date</Form.Label>
               <Form.Control
                 type="date"
-                value={filters.latestAiringStart}
+                value={
+                  filters.latestAiringStart
+                    ? filters.latestAiringStart.toISOString().split("T")[0]
+                    : ""
+                }
                 onChange={(e) =>
                   handleChange({
                     key: "latestAiringStart",
-                    value: e.target.value,
+                    value: new Date(e.target.value),
                   })
                 }
               />
