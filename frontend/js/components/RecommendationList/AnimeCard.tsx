@@ -1,6 +1,7 @@
-import React from 'react';
-import { Card, Row, Col, Badge } from 'react-bootstrap';
-import { Anime } from '../../types';
+import React from "react";
+import { Card, Row, Col, Badge } from "react-bootstrap";
+
+import { Anime } from "../../types";
 
 interface AnimeCardProps {
   anime: Anime;
@@ -12,7 +13,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime }) => {
       <Row noGutters>
         {/* Image Section */}
         <Col md={2}>
-          <Card.Img src={anime.imageUrl} alt={anime.name} className="h-100" />
+          <Card.Img alt={anime.name} className="h-100" src={anime.imageUrl} />
         </Col>
 
         {/* Details Section */}
@@ -39,8 +40,11 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime }) => {
               </Col>
 
               {/* Action Button or Status */}
-              <Col md={2} className="d-flex align-items-center justify-content-center">
-                <Badge pill bg="success">
+              <Col
+                className="d-flex align-items-center justify-content-center"
+                md={2}
+              >
+                <Badge bg="success" pill>
                   Plan To Watch
                 </Badge>
               </Col>

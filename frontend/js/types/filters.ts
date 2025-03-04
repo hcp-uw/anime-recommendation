@@ -1,5 +1,4 @@
-import { AnimeStatus } from "../types";
-import { AnimeType } from "../types";
+import { AnimeStatus, AnimeType } from ".";
 
 export type FilterChange =
   | { key: "includedGenres"; value: string[] }
@@ -26,11 +25,11 @@ export type Filters = {
   malScoreMin: number;
   malScoreMax: number;
   memberMin: number;
-  memberMax: number
+  memberMax: number;
   earliestAiringStart: string;
   latestAiringStart: string;
   status: AnimeStatus;
   type: AnimeType;
-  episodeCountMin: number
+  episodeCountMin: number;
   episodeCountMax: number;
 };

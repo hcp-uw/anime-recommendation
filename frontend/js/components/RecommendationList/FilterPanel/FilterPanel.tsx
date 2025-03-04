@@ -1,14 +1,8 @@
 import React, { useState } from "react";
 import { Accordion, Form, Button } from "react-bootstrap";
 
-import {
-  Filters,
-  AnimeStatus,
-  AnimeType,
-  FilterChange,
-} from "../../../types";
-
 import { animeStatuses, animeTypes } from "../../../constants";
+import { Filters, AnimeStatus, AnimeType, FilterChange } from "../../../types";
 
 import StaffInput from "./StaffInput";
 
@@ -44,27 +38,33 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
   const applyFilters = () => {
     // Build the applied filters array by excluding default/invalid values
     const appliedFilters: FilterChange[] = [];
-  
+
     // Included Genres
     if (filters.includedGenres.length > 0) {
-      appliedFilters.push({ key: "includedGenres", value: filters.includedGenres });
+      appliedFilters.push({
+        key: "includedGenres",
+        value: filters.includedGenres,
+      });
     }
-  
+
     // Excluded Genres
     if (filters.excludedGenres.length > 0) {
-      appliedFilters.push({ key: "excludedGenres", value: filters.excludedGenres });
+      appliedFilters.push({
+        key: "excludedGenres",
+        value: filters.excludedGenres,
+      });
     }
-  
+
     // Staff
     if (filters.staff.length > 0) {
       appliedFilters.push({ key: "staff", value: filters.staff });
     }
-  
+
     // Companies
     if (filters.companies.length > 0) {
       appliedFilters.push({ key: "companies", value: filters.companies });
     }
-  
+
     // MAL Score
     if (filters.malScoreMin !== -Infinity) {
       appliedFilters.push({
@@ -78,7 +78,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
         value: filters.malScoreMax,
       });
     }
-  
+
     // Member Count
     if (filters.memberMin !== -Infinity) {
       appliedFilters.push({
@@ -92,7 +92,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
         value: filters.memberMax,
       });
     }
-  
+
     // Airing Start Date
     if (filters.earliestAiringStart) {
       appliedFilters.push({
@@ -106,17 +106,17 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
         value: filters.latestAiringStart,
       });
     }
-  
+
     // Status
     if (filters.status !== "All Statuses") {
       appliedFilters.push({ key: "status", value: filters.status });
     }
-  
+
     // Type
     if (filters.type !== "All Types") {
       appliedFilters.push({ key: "type", value: filters.type });
     }
-  
+
     // Episode Count
     if (filters.episodeCountMin !== -Infinity) {
       appliedFilters.push({
@@ -130,7 +130,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
         value: filters.episodeCountMax,
       });
     }
-  
+
     console.log("Applied Filters:", appliedFilters); // Log the applied filters for debugging
     onFilter(appliedFilters); // Pass the array of applied filters to onFilter function
   };
@@ -156,7 +156,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
 
     onFilter([]); // Clear all filters in the parent component as well
   };
-  
 
   return (
     <div className="filter-panel bg-filter-bg-c border-filter-border-c tz">
@@ -183,7 +182,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
             ))}
           </Accordion.Body>
         </Accordion.Item>
-  
+
         {/* Staff */}
         <Accordion.Item eventKey="1">
           <Accordion.Header>Staff</Accordion.Header>
@@ -191,7 +190,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
             <StaffInput staff={filters.staff} onChange={handleChange} />
           </Accordion.Body>
         </Accordion.Item>
-  
+
         {/* Companies */}
         <Accordion.Item eventKey="2">
           <Accordion.Header>Companies</Accordion.Header>
@@ -213,7 +212,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
             ))}
           </Accordion.Body>
         </Accordion.Item>
-  
+
         {/* MAL Score */}
         <Accordion.Item eventKey="3">
           <Accordion.Header>MAL Score</Accordion.Header>
@@ -224,11 +223,14 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
               min="1"
               placeholder="No minimum"
               type="number"
-              value={filters.malScoreMin === -Infinity ? "" : filters.malScoreMin}
+              value={
+                filters.malScoreMin === -Infinity ? "" : filters.malScoreMin
+              }
               onChange={(e) =>
                 handleChange({
                   key: "malScoreMin",
-                  value: e.target.value === "" ? -Infinity : Number(e.target.value),
+                  value:
+                    e.target.value === "" ? -Infinity : Number(e.target.value),
                 })
               }
             />
@@ -238,17 +240,20 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
               min="1"
               placeholder="No maximum"
               type="number"
-              value={filters.malScoreMax === Infinity ? "" : filters.malScoreMax}
+              value={
+                filters.malScoreMax === Infinity ? "" : filters.malScoreMax
+              }
               onChange={(e) =>
                 handleChange({
                   key: "malScoreMax",
-                  value: e.target.value === "" ? Infinity : Number(e.target.value),
+                  value:
+                    e.target.value === "" ? Infinity : Number(e.target.value),
                 })
               }
             />
           </Accordion.Body>
         </Accordion.Item>
-  
+
         {/* Members */}
         <Accordion.Item eventKey="4">
           <Accordion.Header>Members</Accordion.Header>
@@ -260,7 +265,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
               onChange={(e) =>
                 handleChange({
                   key: "memberMin",
-                  value: e.target.value === "" ? -Infinity : Number(e.target.value),
+                  value:
+                    e.target.value === "" ? -Infinity : Number(e.target.value),
                 })
               }
             />
@@ -271,13 +277,14 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
               onChange={(e) =>
                 handleChange({
                   key: "memberMax",
-                  value: e.target.value === "" ? Infinity : Number(e.target.value),
+                  value:
+                    e.target.value === "" ? Infinity : Number(e.target.value),
                 })
               }
             />
           </Accordion.Body>
         </Accordion.Item>
-  
+
         {/* Date */}
         <Accordion.Item eventKey="5">
           <Accordion.Header>Date</Accordion.Header>
@@ -310,7 +317,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
             </Form.Group>
           </Accordion.Body>
         </Accordion.Item>
-  
+
         {/* Status */}
         <Accordion.Item eventKey="6">
           <Accordion.Header>Status</Accordion.Header>
@@ -332,7 +339,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
             </Form.Select>
           </Accordion.Body>
         </Accordion.Item>
-  
+
         {/* Type */}
         <Accordion.Item eventKey="7">
           <Accordion.Header>Type</Accordion.Header>
@@ -354,7 +361,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
             </Form.Select>
           </Accordion.Body>
         </Accordion.Item>
-  
+
         {/* Length */}
         <Accordion.Item eventKey="8">
           <Accordion.Header>Length</Accordion.Header>
@@ -362,22 +369,32 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
             <Form.Control
               placeholder="Enter minimum number of episodes (inclusive)"
               type="number"
-              value={filters.episodeCountMin === -Infinity ? "" : filters.episodeCountMin}
+              value={
+                filters.episodeCountMin === -Infinity
+                  ? ""
+                  : filters.episodeCountMin
+              }
               onChange={(e) =>
                 handleChange({
                   key: "episodeCountMin",
-                  value: e.target.value === "" ? -Infinity : Number(e.target.value),
+                  value:
+                    e.target.value === "" ? -Infinity : Number(e.target.value),
                 })
               }
             />
             <Form.Control
               placeholder="Enter maximum number of episodes (inclusive)"
               type="number"
-              value={filters.episodeCountMax === Infinity ? "" : filters.episodeCountMax}
+              value={
+                filters.episodeCountMax === Infinity
+                  ? ""
+                  : filters.episodeCountMax
+              }
               onChange={(e) =>
                 handleChange({
                   key: "episodeCountMax",
-                  value: e.target.value === "" ? Infinity : Number(e.target.value),
+                  value:
+                    e.target.value === "" ? Infinity : Number(e.target.value),
                 })
               }
             />
@@ -385,7 +402,10 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
         </Accordion.Item>
       </Accordion>
       {/* Apply Filters Button */}
-      <div className="d-flex justify-content-center mt-3" style={{ gap: '10px' }}>
+      <div
+        className="d-flex justify-content-center mt-3"
+        style={{ gap: "10px" }}
+      >
         <Button variant="primary" onClick={applyFilters}>
           Apply Filters
         </Button>
@@ -395,6 +415,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
       </div>
     </div>
   );
-} 
+};
 
 export default FilterPanel;

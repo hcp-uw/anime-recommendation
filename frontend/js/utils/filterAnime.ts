@@ -1,5 +1,4 @@
-import { Anime } from '../types';
-import { Filters, FilterChange } from '../types';
+import { Anime, Filters, FilterChange } from "../types";
 
 /**
  * Filters an array of Anime based on the provided filters.
@@ -7,46 +6,56 @@ import { Filters, FilterChange } from '../types';
  * @param filters - A list of FilterChanges containing filtering criteria.
  * @returns A filtered array of Anime.
  */
-export const filterAnime = (allRecommendations: Anime[], filters: FilterChange[]): Anime[] => {
-    return allRecommendations.filter(anime => {
-      return filters.every(({ key, value }) => {
-        if (value === undefined || value === null) return true; // Skip undefined or null filters
-  
-        switch (key) {
-          case 'includedGenres':
-            return (value as string[]).some(genre => anime.genres.includes(genre));
-          case 'excludedGenres':
-            return !(value as string[]).some(genre => anime.genres.includes(genre));
-          case 'staff':
-            return (value as string[]).some(staffMember => anime.staff.includes(staffMember));
-          case 'companies':
-            return (value as string[]).some(company => anime.companies.includes(company));
-          case 'malScoreMin':
-            return anime.malScore >= (value as number);
-          case 'malScoreMax':
-            return anime.malScore <= (value as number);
-          case 'memberMin':
-            return anime.members >= (value as number);
-          case 'memberMax':
-            return anime.members <= (value as number);
-          case 'earliestAiringStart':
-            const animeAiringStart = new Date(anime.airingDate.start);
-            return animeAiringStart >= new Date(value as string);
-          case 'latestAiringStart':
-            const animeAiringDate = new Date(anime.airingDate.start);
-            return animeAiringDate <= new Date(value as string);
-          case 'status':
-            return value === anime.status;
-          case 'type':
-            return value === anime.type; // TODO: Change behavior if type is other, as it means it should be anything not included in the other types
-          case 'episodeCountMin':
-            return anime.episodeCount >= (value as number);
-          case 'episodeCountMax':
-            return anime.episodeCount <= (value as number);
-          default:
-            return true; // Ignore unknown filter keys
-        }
-      });
+export const filterAnime = (
+  allRecommendations: Anime[],
+  filters: FilterChange[],
+): Anime[] => {
+  return allRecommendations.filter((anime) => {
+    return filters.every(({ key, value }) => {
+      if (value === undefined || value === null) return true; // Skip undefined or null filters
+
+      switch (key) {
+        case "includedGenres":
+          return (value as string[]).some((genre) =>
+            anime.genres.includes(genre),
+          );
+        case "excludedGenres":
+          return !(value as string[]).some((genre) =>
+            anime.genres.includes(genre),
+          );
+        case "staff":
+          return (value as string[]).some((staffMember) =>
+            anime.staff.includes(staffMember),
+          );
+        case "companies":
+          return (value as string[]).some((company) =>
+            anime.companies.includes(company),
+          );
+        case "malScoreMin":
+          return anime.malScore >= (value as number);
+        case "malScoreMax":
+          return anime.malScore <= (value as number);
+        case "memberMin":
+          return anime.members >= (value as number);
+        case "memberMax":
+          return anime.members <= (value as number);
+        case "earliestAiringStart":
+          const animeAiringStart = new Date(anime.airingDate.start);
+          return animeAiringStart >= new Date(value as string);
+        case "latestAiringStart":
+          const animeAiringDate = new Date(anime.airingDate.start);
+          return animeAiringDate <= new Date(value as string);
+        case "status":
+          return value === anime.status;
+        case "type":
+          return value === anime.type; // TODO: Change behavior if type is other, as it means it should be anything not included in the other types
+        case "episodeCountMin":
+          return anime.episodeCount >= (value as number);
+        case "episodeCountMax":
+          return anime.episodeCount <= (value as number);
+        default:
+          return true; // Ignore unknown filter keys
+      }
     });
-  };
-  
+  });
+};

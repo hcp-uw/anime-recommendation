@@ -243,6 +243,7 @@ CSP_IMG_SRC = [
     "data:",
     "https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/",
     "https://cdn.redoc.ly/redoc/",
+    "https://cdn.myanimelist.net/images/",
 ]
 
 # Django-defender

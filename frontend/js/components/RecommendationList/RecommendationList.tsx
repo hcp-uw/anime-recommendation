@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
-import { Row, Col, Container } from 'react-bootstrap';
-import AnimeCard from './AnimeCard';
-import FilterPanel from './FilterPanel/FilterPanel';
-import { Anime, FilterChange } from '../../types';
-import { filterAnime } from '../../utils';
+import React, { useState } from "react";
+import { Row, Col, Container } from "react-bootstrap";
+
+import { Anime, FilterChange } from "../../types";
+import { filterAnime } from "../../utils";
+
+import AnimeCard from "./AnimeCard";
+import FilterPanel from "./FilterPanel/FilterPanel";
 
 interface RecommendationListProps {
   allRecommendations: Anime[];
 }
 
-const RecommendationList: React.FC<RecommendationListProps> = ({ allRecommendations }) => {
-  const [filteredRecommendations, setFilteredRecommendations] = useState<Anime[]>(allRecommendations);
+const RecommendationList: React.FC<RecommendationListProps> = ({
+  allRecommendations,
+}) => {
+  const [filteredRecommendations, setFilteredRecommendations] =
+    useState<Anime[]>(allRecommendations);
 
   // Handle filter changes
   const handleFilter = (filters: FilterChange[]) => {
