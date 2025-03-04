@@ -6,7 +6,7 @@ export const dummyAnimeList: Anime[] = [
       name: "Hunter x Hunter (2011)",
       synopsis: "Gon Freecss sets out on a journey to become a Hunter and find his missing father.",
       malUrl: "https://myanimelist.net/anime/11061/Hunter_x_Hunter_2011",
-      imageUrl: "https://cdn.myanimelist.net/images/anime/1337/99013.jpg",
+      imageUrl: "https://cdn.myanimelist.net/images/anime/1537/145325.jpg",
       genres: ["Action", "Adventure", "Fantasy", "Shounen"],
       staff: ["Yoshihiro Togashi", "Hiroshi Koujina", "Jun Maekawa"],
       companies: ["Madhouse"],

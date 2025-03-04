@@ -134,6 +134,28 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
     console.log("Applied Filters:", appliedFilters); // Log the applied filters for debugging
     onFilter(appliedFilters); // Pass the array of applied filters to onFilter function
   };
+
+  // Clear all filters
+  const resetFilters = () => {
+    setFilters({
+      includedGenres: [],
+      excludedGenres: [],
+      staff: [],
+      companies: [],
+      malScoreMin: -Infinity,
+      malScoreMax: Infinity,
+      memberMin: -Infinity,
+      memberMax: Infinity,
+      earliestAiringStart: "",
+      latestAiringStart: "",
+      status: "All Statuses",
+      type: "All Types",
+      episodeCountMin: -Infinity,
+      episodeCountMax: Infinity,
+    });
+
+    onFilter([]); // Clear all filters in the parent component as well
+  };
   
 
   return (
@@ -362,6 +384,15 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
+      {/* Apply Filters Button */}
+      <div className="d-flex justify-content-center mt-3" style={{ gap: '10px' }}>
+        <Button variant="primary" onClick={applyFilters}>
+          Apply Filters
+        </Button>
+        <Button variant="secondary" onClick={resetFilters}>
+          Reset Filters
+        </Button>
+      </div>
     </div>
   );
 } 
