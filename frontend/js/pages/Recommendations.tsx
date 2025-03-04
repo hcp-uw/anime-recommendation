@@ -1,24 +1,13 @@
-import { Container, Row, Col } from "react-bootstrap";
-
-import FilterPanel from "../components/FilterPanel/FilterPanel"; // Adjust the path as needed
+import RecommendationList from "../components/RecommendationList/RecommendationList";
+import { Anime } from "../types";
+import { dummyAnimeList } from "../constants/DummyAnimeList";
 
 const Recommendations = () => {
-  return (
-    <Container className="mt-4">
-      <Row>
-        {/* Filter Panel */}
-        <Col md={3}>
-          <FilterPanel />
-        </Col>
+  // TODO: Change this to fetch recommendations from the backend instead of a dummy test file
+  const allRecommendations: Anime[] = dummyAnimeList;
 
-        {/* Main Content */}
-        <Col md={9}>
-          <h2>Recommendations</h2>
-          <p>This is where your recommendations content will go.</p>
-          {/* Add logic here to display filtered recommendations */}
-        </Col>
-      </Row>
-    </Container>
+  return (
+      <RecommendationList allRecommendations={allRecommendations} />
   );
 };
 

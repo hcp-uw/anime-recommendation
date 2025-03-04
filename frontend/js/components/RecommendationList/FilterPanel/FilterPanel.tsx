@@ -8,9 +8,14 @@ import {
   AnimeStatus,
   AnimeType,
   FilterChange,
-} from "../../types/filters";
+} from "../../../types";
 
 import StaffInput from "./StaffInput";
+
+interface FilterPanelProps {
+  onFilter: (filterChange: FilterChange) => void;
+}
+
 
 const FilterPanel = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -84,6 +89,7 @@ const FilterPanel = () => {
     }
 
     console.log("Applied Filters:", appliedFilters); // TODO: Make this actually filter instead of just logging the active filters
+    
   };
 
   return (
