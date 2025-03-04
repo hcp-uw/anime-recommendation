@@ -1,29 +1,31 @@
 import React, { useState } from "react";
 import { Accordion, Form, Button } from "react-bootstrap";
 
-import {
-  Filters,
-  animeStatuses,
-  animeTypes,
-  AnimeStatus,
-  AnimeType,
-  FilterChange,
-} from "../../types/filters";
+import { animeStatuses, animeTypes } from "../../../constants";
+import { Filters, AnimeStatus, AnimeType, FilterChange } from "../../../types";
 
 import StaffInput from "./StaffInput";
 
-const FilterPanel = () => {
+interface FilterPanelProps {
+  onFilter: (filters: FilterChange[]) => void;
+}
+
+const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
   const [filters, setFilters] = useState<Filters>({
     includedGenres: [],
     excludedGenres: [],
     staff: [],
     companies: [],
-    malScore: { min: -Infinity, max: Infinity },
-    members: { min: -Infinity, max: Infinity },
-    airingDate: { earliestStart: "", latestStart: "" },
+    malScoreMin: -Infinity,
+    malScoreMax: Infinity,
+    memberMin: -Infinity,
+    memberMax: Infinity,
+    earliestAiringStart: null,
+    latestAiringStart: null,
     status: "All Statuses",
     type: "All Types",
-    episodeCount: { min: -Infinity, max: Infinity },
+    episodeCountMin: -Infinity,
+    episodeCountMax: Infinity,
   });
 
   const handleChange = (filterChange: FilterChange) => {
@@ -34,56 +36,125 @@ const FilterPanel = () => {
   };
 
   const applyFilters = () => {
-    // Build the applied filters object by excluding default/invalid values
-    const appliedFilters: Partial<Filters> = {};
+    // Build the applied filters array by excluding default/invalid values
+    const appliedFilters: FilterChange[] = [];
 
+    // Included Genres
     if (filters.includedGenres.length > 0) {
-      appliedFilters.includedGenres = filters.includedGenres;
+      appliedFilters.push({
+        key: "includedGenres",
+        value: filters.includedGenres,
+      });
     }
 
+    // Excluded Genres
     if (filters.excludedGenres.length > 0) {
-      appliedFilters.excludedGenres = filters.excludedGenres;
+      appliedFilters.push({
+        key: "excludedGenres",
+        value: filters.excludedGenres,
+      });
     }
 
+    // Staff
     if (filters.staff.length > 0) {
-      appliedFilters.staff = filters.staff;
+      appliedFilters.push({ key: "staff", value: filters.staff });
     }
 
+    // Companies
     if (filters.companies.length > 0) {
-      appliedFilters.companies = filters.companies;
+      appliedFilters.push({ key: "companies", value: filters.companies });
     }
 
-    if (
-      filters.malScore.min !== -Infinity ||
-      filters.malScore.max !== Infinity
-    ) {
-      appliedFilters.malScore = filters.malScore;
+    // MAL Score
+    if (filters.malScoreMin !== -Infinity) {
+      appliedFilters.push({
+        key: "malScoreMin",
+        value: filters.malScoreMin,
+      });
+    }
+    if (filters.malScoreMax !== Infinity) {
+      appliedFilters.push({
+        key: "malScoreMax",
+        value: filters.malScoreMax,
+      });
     }
 
-    if (filters.members.min !== -Infinity || filters.members.max !== Infinity) {
-      appliedFilters.members = filters.members;
+    // Member Count
+    if (filters.memberMin !== -Infinity) {
+      appliedFilters.push({
+        key: "memberMin",
+        value: filters.memberMin,
+      });
+    }
+    if (filters.memberMax !== Infinity) {
+      appliedFilters.push({
+        key: "memberMax",
+        value: filters.memberMax,
+      });
     }
 
-    if (filters.airingDate.earliestStart || filters.airingDate.latestStart) {
-      appliedFilters.airingDate = filters.airingDate;
+    // Airing Start Date
+    if (filters.earliestAiringStart !== null) {
+      appliedFilters.push({
+        key: "earliestAiringStart",
+        value: filters.earliestAiringStart,
+      });
+    }
+    if (filters.latestAiringStart !== null) {
+      appliedFilters.push({
+        key: "latestAiringStart",
+        value: filters.latestAiringStart,
+      });
     }
 
-    if (filters.status && filters.status !== "All Statuses") {
-      appliedFilters.status = filters.status;
+    // Status
+    if (filters.status !== "All Statuses") {
+      appliedFilters.push({ key: "status", value: filters.status });
     }
 
-    if (filters.type && filters.type !== "All Types") {
-      appliedFilters.type = filters.type;
+    // Type
+    if (filters.type !== "All Types") {
+      appliedFilters.push({ key: "type", value: filters.type });
     }
 
-    if (
-      filters.episodeCount.min !== -Infinity ||
-      filters.episodeCount.max !== Infinity
-    ) {
-      appliedFilters.episodeCount = filters.episodeCount;
+    // Episode Count
+    if (filters.episodeCountMin !== -Infinity) {
+      appliedFilters.push({
+        key: "episodeCountMin",
+        value: filters.episodeCountMin,
+      });
+    }
+    if (filters.episodeCountMax !== Infinity) {
+      appliedFilters.push({
+        key: "episodeCountMax",
+        value: filters.episodeCountMax,
+      });
     }
 
-    console.log("Applied Filters:", appliedFilters); // TODO: Make this actually filter instead of just logging the active filters
+    console.log("Applied Filters:", appliedFilters); // Log the applied filters for debugging
+    onFilter(appliedFilters); // Pass the array of applied filters to onFilter function
+  };
+
+  // Clear all filters
+  const resetFilters = () => {
+    setFilters({
+      includedGenres: [],
+      excludedGenres: [],
+      staff: [],
+      companies: [],
+      malScoreMin: -Infinity,
+      malScoreMax: Infinity,
+      memberMin: -Infinity,
+      memberMax: Infinity,
+      earliestAiringStart: null,
+      latestAiringStart: null,
+      status: "All Statuses",
+      type: "All Types",
+      episodeCountMin: -Infinity,
+      episodeCountMax: Infinity,
+    });
+
+    onFilter([]); // Clear all filters in the parent component as well
   };
 
   return (
@@ -153,18 +224,13 @@ const FilterPanel = () => {
               placeholder="No minimum"
               type="number"
               value={
-                filters.malScore.min === -Infinity ? "" : filters.malScore.min
+                filters.malScoreMin === -Infinity ? "" : filters.malScoreMin
               }
               onChange={(e) =>
                 handleChange({
-                  key: "malScore",
-                  value: {
-                    ...filters.malScore,
-                    min:
-                      e.target.value === ""
-                        ? -Infinity
-                        : Number(e.target.value),
-                  },
+                  key: "malScoreMin",
+                  value:
+                    e.target.value === "" ? -Infinity : Number(e.target.value),
                 })
               }
             />
@@ -175,16 +241,13 @@ const FilterPanel = () => {
               placeholder="No maximum"
               type="number"
               value={
-                filters.malScore.max === Infinity ? "" : filters.malScore.max
+                filters.malScoreMax === Infinity ? "" : filters.malScoreMax
               }
               onChange={(e) =>
                 handleChange({
-                  key: "malScore",
-                  value: {
-                    ...filters.malScore,
-                    max:
-                      e.target.value === "" ? Infinity : Number(e.target.value),
-                  },
+                  key: "malScoreMax",
+                  value:
+                    e.target.value === "" ? Infinity : Number(e.target.value),
                 })
               }
             />
@@ -198,36 +261,24 @@ const FilterPanel = () => {
             <Form.Control
               placeholder="Enter minimum members"
               type="number"
-              value={
-                filters.members.min === -Infinity ? "" : filters.members.min
-              }
+              value={filters.memberMin === -Infinity ? "" : filters.memberMin}
               onChange={(e) =>
                 handleChange({
-                  key: "members",
-                  value: {
-                    ...filters.members,
-                    min:
-                      e.target.value === ""
-                        ? -Infinity
-                        : Number(e.target.value),
-                  },
+                  key: "memberMin",
+                  value:
+                    e.target.value === "" ? -Infinity : Number(e.target.value),
                 })
               }
             />
             <Form.Control
               placeholder="Enter maximum members"
               type="number"
-              value={
-                filters.members.max === Infinity ? "" : filters.members.max
-              }
+              value={filters.memberMax === Infinity ? "" : filters.memberMax}
               onChange={(e) =>
                 handleChange({
-                  key: "members",
-                  value: {
-                    ...filters.members,
-                    max:
-                      e.target.value === "" ? Infinity : Number(e.target.value),
-                  },
+                  key: "memberMax",
+                  value:
+                    e.target.value === "" ? Infinity : Number(e.target.value),
                 })
               }
             />
@@ -242,30 +293,32 @@ const FilterPanel = () => {
               <Form.Label>Earliest Start Date</Form.Label>
               <Form.Control
                 type="date"
-                value={filters.airingDate.earliestStart}
+                value={
+                  filters.earliestAiringStart
+                    ? filters.earliestAiringStart.toISOString().split("T")[0]
+                    : ""
+                }
                 onChange={(e) =>
                   handleChange({
-                    key: "airingDate",
-                    value: {
-                      ...filters.airingDate,
-                      earliestStart: e.target.value,
-                    },
+                    key: "earliestAiringStart",
+                    value: new Date(e.target.value),
                   })
                 }
               />
             </Form.Group>
             <Form.Group className="mt-3">
-              <Form.Label>Latest End Date</Form.Label>
+              <Form.Label>Latest Start Date</Form.Label>
               <Form.Control
                 type="date"
-                value={filters.airingDate.latestStart}
+                value={
+                  filters.latestAiringStart
+                    ? filters.latestAiringStart.toISOString().split("T")[0]
+                    : ""
+                }
                 onChange={(e) =>
                   handleChange({
-                    key: "airingDate",
-                    value: {
-                      ...filters.airingDate,
-                      latestStart: e.target.value,
-                    },
+                    key: "latestAiringStart",
+                    value: new Date(e.target.value),
                   })
                 }
               />
@@ -325,20 +378,15 @@ const FilterPanel = () => {
               placeholder="Enter minimum number of episodes (inclusive)"
               type="number"
               value={
-                filters.episodeCount.min === -Infinity
+                filters.episodeCountMin === -Infinity
                   ? ""
-                  : filters.episodeCount.min
+                  : filters.episodeCountMin
               }
               onChange={(e) =>
                 handleChange({
-                  key: "episodeCount",
-                  value: {
-                    ...filters.episodeCount,
-                    min:
-                      e.target.value === ""
-                        ? -Infinity
-                        : Number(e.target.value),
-                  },
+                  key: "episodeCountMin",
+                  value:
+                    e.target.value === "" ? -Infinity : Number(e.target.value),
                 })
               }
             />
@@ -346,33 +394,31 @@ const FilterPanel = () => {
               placeholder="Enter maximum number of episodes (inclusive)"
               type="number"
               value={
-                filters.episodeCount.max === Infinity
+                filters.episodeCountMax === Infinity
                   ? ""
-                  : filters.episodeCount.max
+                  : filters.episodeCountMax
               }
               onChange={(e) =>
                 handleChange({
-                  key: "episodeCount",
-                  value: {
-                    ...filters.episodeCount,
-                    max:
-                      e.target.value === "" ? Infinity : Number(e.target.value),
-                  },
+                  key: "episodeCountMax",
+                  value:
+                    e.target.value === "" ? Infinity : Number(e.target.value),
                 })
               }
             />
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-
-      {/* Apply Button */}
-      <div className="mt-3 text-center">
-        <Button
-          className="bg-button-c text-offbase-white"
-          variant="primary"
-          onClick={applyFilters}
-        >
-          Apply
+      {/* Apply Filters Button */}
+      <div
+        className="d-flex justify-content-center mt-3"
+        style={{ gap: "10px" }}
+      >
+        <Button variant="primary" onClick={applyFilters}>
+          Apply Filters
+        </Button>
+        <Button variant="secondary" onClick={resetFilters}>
+          Reset Filters
         </Button>
       </div>
     </div>

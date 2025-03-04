@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Badge, Button } from "react-bootstrap";
 
-import { FilterChange } from "../../types/filters";
+import { FilterChange } from "../../../types";
 
 interface StaffInputProps {
   staff: string[];
