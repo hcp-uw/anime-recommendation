@@ -1,13 +1,13 @@
 // import { useState, useEffect } from "react";
-// import Button from "react-bootstrap/Button";
 
 // import { RestService } from "../api";
+import UsernameInput from "../components/HomeInput/UsernameInput";
 
 const Home = () => {
 
   return (
     <>
-      Home
+      <UsernameInput />
     </>
   );
 };
