@@ -1,3 +1,6 @@
+import { AnimeType } from "../types";
+import { AnimeStatus } from "../types";
+
 export type Anime = {
     id: number;
     name: string;

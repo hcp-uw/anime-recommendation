@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Col } from 'react-bootstrap';
-import AnimeRecommendation from './AnimeRecommendation';
+import React, { useState } from 'react';
+import { Row, Col, Container } from 'react-bootstrap';
+import AnimeCard from './AnimeCard';
 import FilterPanel from './FilterPanel/FilterPanel';
-import { Anime } from '../../types';
+import { Anime, FilterChange } from '../../types';
 import { filterAnime } from '../../utils';
 
 interface RecommendationListProps {
@@ -12,33 +12,30 @@ interface RecommendationListProps {
 const RecommendationList: React.FC<RecommendationListProps> = ({ allRecommendations }) => {
   const [filteredRecommendations, setFilteredRecommendations] = useState<Anime[]>(allRecommendations);
 
-  // Effect to update filtered recommendations when allRecommendations changes
-  useEffect(() => {
-    setFilteredRecommendations(allRecommendations);
-  }, [allRecommendations]);
-
-  // Handle filtering logic
-  const handleFilter = (filters: { genres: string[]; minRating: number }) => {
-    const filtered = allRecommendations.filter(anime => {
-      return filters.genres.every(genre => anime.genres.includes(genre)) &&
-             anime.rating >= filters.minRating;
-    });
+  // Handle filter changes
+  const handleFilter = (filters: FilterChange[]) => {
+    const filtered = filterAnime(allRecommendations, filters);
     setFilteredRecommendations(filtered);
   };
 
   return (
-    <Row className="recommendation-list">
-      <Col md={9} className="anime-list">
-        <div className="anime-grid">
-          {filteredRecommendations.map(anime => (
-            <AnimeRecommendation key={anime.id} anime={anime} />
-          ))}
-        </div>
-      </Col>
-      <Col md={3} className="filter-panel-container">
-        <FilterPanel onFilter={handleFilter} />
-      </Col>
-    </Row>
+    <Container fluid>
+      <Row>
+        {/* Filter Panel */}
+        <Col md={3}>
+          <FilterPanel onFilter={handleFilter} />
+        </Col>
+
+        {/* Recommendations List */}
+        <Col md={9}>
+          <div className="recommendation-list">
+            {filteredRecommendations.map((anime) => (
+              <AnimeCard key={anime.id} anime={anime} />
+            ))}
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

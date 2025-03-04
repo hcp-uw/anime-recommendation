@@ -1,5 +1,7 @@
 export {Anime} from './anime';
-export {AnimeStatus, AnimeType, Filters, animeStatuses, animeTypes, FilterChange} from './filters';
+export {Filters, FilterChange} from './filters';
+export {AnimeType} from './animeType';
+export {AnimeStatus} from './animeStatus';
 
 declare global {
   interface Window {

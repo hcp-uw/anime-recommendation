@@ -1,15 +1,15 @@
 import { Anime } from '../types';
-import { Filters } from '../types';
+import { Filters, FilterChange } from '../types';
 
 /**
  * Filters an array of Anime based on the provided filters.
  * @param allRecommendations - The full list of Anime recommendations.
- * @param filters - A Partial<Filters> object containing filtering criteria.
+ * @param filters - A list of FilterChanges containing filtering criteria.
  * @returns A filtered array of Anime.
  */
-export const filterAnime = (allRecommendations: Anime[], filters: Partial<Filters>): Anime[] => {
+export const filterAnime = (allRecommendations: Anime[], filters: FilterChange[]): Anime[] => {
     return allRecommendations.filter(anime => {
-      return Object.entries(filters).every(([key, value]) => {
+      return filters.every(({ key, value }) => {
         if (value === undefined || value === null) return true; // Skip undefined or null filters
   
         switch (key) {
@@ -21,38 +21,32 @@ export const filterAnime = (allRecommendations: Anime[], filters: Partial<Filter
             return (value as string[]).some(staffMember => anime.staff.includes(staffMember));
           case 'companies':
             return (value as string[]).some(company => anime.companies.includes(company));
-          case 'malScore':
-            const { min: scoreMin, max: scoreMax } = value as Filters['malScore'];
-            return (
-              (scoreMin === undefined || anime.malScore >= scoreMin) &&
-              (scoreMax === undefined || anime.malScore <= scoreMax)
-            );
-          case 'members':
-            const { min: membersMin, max: membersMax } = value as Filters['members'];
-            return (
-              (membersMin === undefined || anime.members >= membersMin) &&
-              (membersMax === undefined || anime.members <= membersMax)
-            );
-          case 'airingDate':
-            const { earliestStart, latestStart } = value as Filters['airingDate'];
-            const animeAiringDate = new Date(anime.airingDate.start); // Assuming anime has an `airingDate` property
-            return (
-              (!earliestStart || animeAiringDate >= new Date(earliestStart)) &&
-              (!latestStart || animeAiringDate <= new Date(latestStart))
-            );
+          case 'malScoreMin':
+            return anime.malScore >= (value as number);
+          case 'malScoreMax':
+            return anime.malScore <= (value as number);
+          case 'memberMin':
+            return anime.members >= (value as number);
+          case 'memberMax':
+            return anime.members <= (value as number);
+          case 'earliestAiringStart':
+            const animeAiringStart = new Date(anime.airingDate.start);
+            return animeAiringStart >= new Date(value as string);
+          case 'latestAiringStart':
+            const animeAiringDate = new Date(anime.airingDate.start);
+            return animeAiringDate <= new Date(value as string);
           case 'status':
             return value === anime.status;
           case 'type':
-            return value === anime.type;
-          case 'episodeCount':
-            const { min: episodesMin, max: episodesMax } = value as Filters['episodeCount'];
-            return (
-              (episodesMin === undefined || anime.episodeCount >= episodesMin) &&
-              (episodesMax === undefined || anime.episodeCount <= episodesMax)
-            );
+            return value === anime.type; // TODO: Change behavior if type is other, as it means it should be anything not included in the other types
+          case 'episodeCountMin':
+            return anime.episodeCount >= (value as number);
+          case 'episodeCountMax':
+            return anime.episodeCount <= (value as number);
           default:
             return true; // Ignore unknown filter keys
         }
       });
     });
   };
+  

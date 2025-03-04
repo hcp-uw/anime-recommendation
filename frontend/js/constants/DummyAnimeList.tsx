@@ -13,7 +13,7 @@ export const dummyAnimeList: Anime[] = [
       malScore: 9.0,
       members: 2500000,
       airingDate: { start: "2011-10-02", end: "2014-09-24" },
-      status: "completed",
+      status: "Finished Airing",
       type: "TV",
       episodeCount: 148
     },
@@ -29,7 +29,7 @@ export const dummyAnimeList: Anime[] = [
       malScore: 9.1,
       members: 2200000,
       airingDate: { start: "2011-04-06", end: "2011-09-14" },
-      status: "completed",
+      status: "Currently Airing",
       type: "TV",
       episodeCount: 24
     },
@@ -45,7 +45,7 @@ export const dummyAnimeList: Anime[] = [
       malScore: 8.5,
       members: 2300000,
       airingDate: { start: "2015-10-05", end: "2015-12-21" },
-      status: "completed",
+      status: "Not yet aired",
       type: "TV",
       episodeCount: 12
     }

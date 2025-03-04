@@ -1,6 +1,6 @@
 import RecommendationList from "../components/RecommendationList/RecommendationList";
 import { Anime } from "../types";
-import { dummyAnimeList } from "../constants/DummyAnimeList";
+import { dummyAnimeList } from "../constants";
 
 const Recommendations = () => {
   // TODO: Change this to fetch recommendations from the backend instead of a dummy test file
