@@ -1,5 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav'
 
 function UsernameInput() {
     return (
@@ -14,7 +15,11 @@ function UsernameInput() {
 
 function GenerateButton() {
     return (
-        <Button variant="button-c" size="lg" className="btn-custom mx-auto px-5" style={{color: "#FDFDFD"}}>Generate Recommendations</Button>
+        <Nav.Link href="/recs" className="mx-auto text-center">
+            <Button variant="button-c" size="lg" className="btn-custom mx-auto px-5" style={{color: "#FDFDFD"}}>
+                Generate Recommendations
+            </Button>
+        </Nav.Link>
     );
 }
 
