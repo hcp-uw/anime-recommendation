@@ -5,6 +5,7 @@ import { animeStatuses, animeTypes } from "../../../constants";
 import { Filters, AnimeStatus, AnimeType, FilterChange } from "../../../types";
 
 import StaffInput from "./StaffInput";
+import GenreInput from "./GenreInput";
 
 interface FilterPanelProps {
   onFilter: (filters: FilterChange[]) => void;
@@ -163,23 +164,9 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
       <Accordion>
         {/* Genre, Tags */}
         <Accordion.Item eventKey="0">
-          <Accordion.Header>Genre, Tags</Accordion.Header>
+          <Accordion.Header>Genre</Accordion.Header>
           <Accordion.Body>
-            {["Action", "Adventure", "Comedy", "Drama"].map((genre) => (
-              <Form.Check
-                key={genre}
-                label={genre}
-                type="checkbox"
-                onChange={(e) =>
-                  handleChange({
-                    key: "includedGenres",
-                    value: e.target.checked
-                      ? [...filters.includedGenres, genre]
-                      : filters.includedGenres.filter((g) => g !== genre),
-                  })
-                }
-              />
-            ))}
+            <GenreInput includedGenres={filters.includedGenres} excludedGenres={filters.excludedGenres} onChange={handleChange} />
           </Accordion.Body>
         </Accordion.Item>
 

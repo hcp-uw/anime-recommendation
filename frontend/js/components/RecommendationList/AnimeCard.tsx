@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Row, Col, Badge } from "react-bootstrap";
 
 import { Anime } from "../../types";
+import { malCategories } from "../../constants";
 
 interface AnimeCardProps {
   anime: Anime;
@@ -26,7 +27,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime }) => {
                 <div className="mb-2">
                   {anime.genres.map((genre) => (
                     <Badge key={genre} bg="secondary" className="mr-1">
-                      {genre}
+                      {malCategories[genre]}
                     </Badge>
                   ))}
                 </div>
