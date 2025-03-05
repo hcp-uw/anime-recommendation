@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import { TriStateCheckbox } from 'primereact/tristatecheckbox';
+import TriStateCheckbox from "./TriStateCheckbox";
 import { malCategories } from '../../../constants';
 import { MalCategoryId } from '../../../types';
 import { FilterChange } from '../../../types';
@@ -39,30 +39,21 @@ const GenreInput: React.FC<GenreInputProps> = ({ includedGenres, excludedGenres,
 
   return (
     <>
-      {Object.entries(malCategories).map(([id, name]) => (
-        <div key={id} className="mb-3 d-flex align-items-center">
-        <TriStateCheckbox
-          value={getCheckboxValue(Number(id) as MalCategoryId)}
-          onChange={(e) => handleCheckboxChange(Number(id) as MalCategoryId, e.value as boolean | null)}
-        />
-        <Form.Label className="ms-2 mb-0">{name}</Form.Label>
-      </div>    
-      ))}
+      {Object.entries(malCategories).map(([idStr, name]) => {
+        const id = Number(idStr) as MalCategoryId; // Type assertion here
+        return (
+          <div key={id} className="mb-3 d-flex align-items-center">
+            <TriStateCheckbox
+              id={id}
+              initialState={getCheckboxValue(id)} // Use the initial state
+              onChange={handleCheckboxChange}
+            />
+            <Form.Label className="ms-2 mb-0">{name}</Form.Label>
+          </div>
+        )
+      })}
     </>
   );
-  return (
-    <>
-        {Object.entries(malCategories).map(([id, name]) => (
-            <Form.Group key={id} className="mb-3 d-flex align-items-center">
-                <TriStateCheckbox
-                    value={getCheckboxValue(Number(id) as MalCategoryId)}
-                    onChange={(e) => handleCheckboxChange(Number(id) as MalCategoryId, e.value as boolean | null)}
-                />
-                <Form.Label className="ms-2 mb-0">{name}</Form.Label>
-            </Form.Group>
-        ))}
-    </>
-);
 };
 
 export default GenreInput;
