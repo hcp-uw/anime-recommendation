@@ -6,6 +6,7 @@ import { Filters, AnimeStatus, AnimeType, FilterChange } from "../../../types";
 
 import StaffInput from "./StaffInput";
 import GenreInput from "./GenreInput";
+import RangeSlider from "./RangeSlider";
 
 interface FilterPanelProps {
   onFilter: (filters: FilterChange[]) => void;
@@ -204,39 +205,19 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
         <Accordion.Item eventKey="3">
           <Accordion.Header>MAL Score</Accordion.Header>
           <Accordion.Body>
-            <Form.Label>Minimum MAL Score (1-10)</Form.Label>
-            <Form.Control
-              max="10"
-              min="1"
-              placeholder="No minimum"
-              type="number"
-              value={
-                filters.malScoreMin === -Infinity ? "" : filters.malScoreMin
-              }
-              onChange={(e) =>
-                handleChange({
-                  key: "malScoreMin",
-                  value:
-                    e.target.value === "" ? -Infinity : Number(e.target.value),
-                })
-              }
-            />
-            <Form.Label>Maximum MAL Score (1-10)</Form.Label>
-            <Form.Control
-              max="10"
-              min="1"
-              placeholder="No maximum"
-              type="number"
-              value={
-                filters.malScoreMax === Infinity ? "" : filters.malScoreMax
-              }
-              onChange={(e) =>
-                handleChange({
-                  key: "malScoreMax",
-                  value:
-                    e.target.value === "" ? Infinity : Number(e.target.value),
-                })
-              }
+            <RangeSlider
+              min={1}
+              max={10}
+              step={0.5}
+              initialMin={filters.malScoreMin === -Infinity ? 1 : filters.malScoreMin}
+              initialMax={filters.malScoreMax === Infinity ? 10 : filters.malScoreMax}
+              label="MAL Score Range"
+              minDescription="Minimum Score"
+              maxDescription="Maximum Score"
+              onChange={(min, max) => {
+                handleChange({ key: 'malScoreMin', value: min });
+                handleChange({ key: 'malScoreMax', value: max });
+              }}
             />
           </Accordion.Body>
         </Accordion.Item>
@@ -245,29 +226,19 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
         <Accordion.Item eventKey="4">
           <Accordion.Header>Members</Accordion.Header>
           <Accordion.Body>
-            <Form.Control
-              placeholder="Enter minimum members"
-              type="number"
-              value={filters.memberMin === -Infinity ? "" : filters.memberMin}
-              onChange={(e) =>
-                handleChange({
-                  key: "memberMin",
-                  value:
-                    e.target.value === "" ? -Infinity : Number(e.target.value),
-                })
-              }
-            />
-            <Form.Control
-              placeholder="Enter maximum members"
-              type="number"
-              value={filters.memberMax === Infinity ? "" : filters.memberMax}
-              onChange={(e) =>
-                handleChange({
-                  key: "memberMax",
-                  value:
-                    e.target.value === "" ? Infinity : Number(e.target.value),
-                })
-              }
+            <RangeSlider
+              min={0}
+              max={1000000} // Adjust this max value as needed
+              step={1000}
+              initialMin={filters.memberMin === -Infinity ? 0 : filters.memberMin}
+              initialMax={filters.memberMax === Infinity ? 1000000 : filters.memberMax}
+              label="Number of Members"
+              minDescription="Minimum Members"
+              maxDescription="Maximum Members"
+              onChange={(min, max) => {
+                handleChange({ key: 'memberMin', value: min });
+                handleChange({ key: 'memberMax', value: max });
+              }}
             />
           </Accordion.Body>
         </Accordion.Item>
