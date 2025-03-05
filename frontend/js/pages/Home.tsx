@@ -1,14 +1,17 @@
 // import { useState, useEffect } from "react";
-// import Button from "react-bootstrap/Button";
 
 // import { RestService } from "../api";
+import { Container } from "react-bootstrap";
+
+import Brand from "../components/HomeInput/Brand";
+import HomeInput from "../components/HomeInput/HomeInput";
 
 const Home = () => {
-
   return (
-    <>
-      Home
-    </>
+    <Container className="py-5">
+      <Brand />
+      <HomeInput />
+    </Container>
   );
 };
 
