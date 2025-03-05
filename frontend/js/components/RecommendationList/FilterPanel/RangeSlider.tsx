@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
 import Slider from "rc-slider";
+import React, { useState, useCallback } from "react";
 import "rc-slider/assets/index.css";
 
 interface RangeSliderProps {
@@ -25,58 +25,66 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
   maxDescription,
   onChange,
 }) => {
-  const [range, setRange] = useState([initialMin, initialMax]);
+  const [range, setRange] = useState<[number, number]>([
+    initialMin,
+    initialMax,
+  ]);
 
-  // TODO: Add functionality where user can only set one range, meaning only one arg is passed in
-  const handleRangeChange = useCallback((newRange: number | number[]) => {
-    // Ensure `newRange` is an array of two numbers
-    if (Array.isArray(newRange)) {
-      const [newMin, newMax] = newRange;
-      setRange([newMin, newMax]);
-      onChange(newMin, newMax);
-    }
-  }, [onChange]);
+  const handleRangeChange = useCallback(
+    (newRange: number | number[]) => {
+      if (Array.isArray(newRange) && newRange.length === 2) {
+        const [newMin, newMax] = newRange;
+        setRange([newMin, newMax]);
+        onChange(newMin, newMax);
+      }
+    },
+    [onChange],
+  );
 
   return (
     <div>
-      <label>{label}</label>
+      <label htmlFor="rangeSlider">{label}</label>
       <div style={{ display: "flex", alignItems: "center" }}>
-        {/* Min Value Input with Description */}
         <div>
-          <label>{minDescription}</label>
+          <label htmlFor="minValue">{minDescription}</label>
           <input
+            id="minValue"
+            max={max}
+            min={min}
+            step={step}
+            style={{ width: "80px", marginRight: "10px" }}
             type="number"
             value={range[0]}
-            min={min}
-            max={max}
-            step={step}
-            onChange={(e) => handleRangeChange([Number(e.target.value), range[1]])}
-            style={{ width: "80px", marginRight: "10px" }}
+            onChange={(e) =>
+              handleRangeChange([Number(e.target.value), range[1]])
+            }
           />
         </div>
 
-        {/* Range Slider with two handles */}
         <Slider
-          range
-          min={min}
+          allowCross={false}
+          id="rangeSlider"
           max={max}
+          min={min}
+          range
           step={step}
           value={range}
           onChange={handleRangeChange}
-          allowCross={false} // Prevent the handles from crossing each other
         />
 
-        {/* Max Value Input with Description */}
         <div>
-          <label>{maxDescription}</label>
+          <label htmlFor="maxValue">{maxDescription}</label>
           <input
+            id="maxValue"
+            max={max}
+            min={min}
+            step={step}
+            style={{ width: "80px", marginLeft: "10px" }}
             type="number"
             value={range[1]}
-            min={min}
-            max={max}
-            step={step}
-            onChange={(e) => handleRangeChange([range[0], Number(e.target.value)])}
-            style={{ width: "80px", marginLeft: "10px" }}
+            onChange={(e) =>
+              handleRangeChange([range[0], Number(e.target.value)])
+            }
           />
         </div>
       </div>

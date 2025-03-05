@@ -4,9 +4,9 @@ import { Accordion, Form, Button } from "react-bootstrap";
 import { animeStatuses, animeTypes } from "../../../constants";
 import { Filters, AnimeStatus, AnimeType, FilterChange } from "../../../types";
 
-import StaffInput from "./StaffInput";
 import GenreInput from "./GenreInput";
 import RangeSlider from "./RangeSlider";
+import StaffInput from "./StaffInput";
 
 interface FilterPanelProps {
   onFilter: (filters: FilterChange[]) => void;
@@ -167,7 +167,11 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
         <Accordion.Item eventKey="0">
           <Accordion.Header>Genre</Accordion.Header>
           <Accordion.Body>
-            <GenreInput includedGenres={filters.includedGenres} excludedGenres={filters.excludedGenres} onChange={handleChange} />
+            <GenreInput
+              excludedGenres={filters.excludedGenres}
+              includedGenres={filters.includedGenres}
+              onChange={handleChange}
+            />
           </Accordion.Body>
         </Accordion.Item>
 
@@ -206,17 +210,21 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
           <Accordion.Header>MAL Score</Accordion.Header>
           <Accordion.Body>
             <RangeSlider
-              min={1}
-              max={10}
-              step={0.5}
-              initialMin={filters.malScoreMin === -Infinity ? 1 : filters.malScoreMin}
-              initialMax={filters.malScoreMax === Infinity ? 10 : filters.malScoreMax}
+              initialMax={
+                filters.malScoreMax === Infinity ? 10 : filters.malScoreMax
+              }
+              initialMin={
+                filters.malScoreMin === -Infinity ? 1 : filters.malScoreMin
+              }
               label="MAL Score Range"
-              minDescription="Minimum Score"
+              max={10}
               maxDescription="Maximum Score"
+              min={1}
+              minDescription="Minimum Score"
+              step={0.5}
               onChange={(min, max) => {
-                handleChange({ key: 'malScoreMin', value: min });
-                handleChange({ key: 'malScoreMax', value: max });
+                handleChange({ key: "malScoreMin", value: min });
+                handleChange({ key: "malScoreMax", value: max });
               }}
             />
           </Accordion.Body>
@@ -227,17 +235,21 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFilter }) => {
           <Accordion.Header>Members</Accordion.Header>
           <Accordion.Body>
             <RangeSlider
-              min={0}
-              max={1000000} // Adjust this max value as needed
-              step={1000}
-              initialMin={filters.memberMin === -Infinity ? 0 : filters.memberMin}
-              initialMax={filters.memberMax === Infinity ? 1000000 : filters.memberMax}
+              initialMax={
+                filters.memberMax === Infinity ? 1000000 : filters.memberMax
+              }
+              initialMin={
+                filters.memberMin === -Infinity ? 0 : filters.memberMin
+              }
               label="Number of Members"
-              minDescription="Minimum Members"
+              max={1000000} // Adjust this max value as needed
               maxDescription="Maximum Members"
+              min={0}
+              minDescription="Minimum Members"
+              step={1000}
               onChange={(min, max) => {
-                handleChange({ key: 'memberMin', value: min });
-                handleChange({ key: 'memberMax', value: max });
+                handleChange({ key: "memberMin", value: min });
+                handleChange({ key: "memberMax", value: max });
               }}
             />
           </Accordion.Body>

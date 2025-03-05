@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, Row, Col, Badge } from "react-bootstrap";
 
-import { Anime } from "../../types";
 import { malCategories } from "../../constants";
+import { Anime } from "../../types";
 
 interface AnimeCardProps {
   anime: Anime;
